@@ -1,0 +1,125 @@
+# MTP-MediaTransfer: A Custom Protocol-Based Client-Server File Streaming System
+
+This project implements a binary-based Media Transfer Protocol (MTP) in Node.js for streaming media files from a server to a client over TCP. Each media transfer uses a custom 12-byte header and chunked data streaming, ensuring reliable and efficient delivery.
+
+---
+
+## What This Project Demonstrates
+
+- Custom binary protocol creation and packet formatting (MTP)
+- Bit-level packet header construction and parsing
+- TCP-based media file transfer with real-time streaming
+- Handling of multiple media types (JPEG, PNG, GIF, BMP, etc.)
+- Client-side file reconstruction and opening
+- Error handling and "Not Found" responses using protocol logic
+
+---
+
+## How It Works
+
+### 1. Start the Media Server
+
+```bash
+node MediaDB.js
+The server:
+
+Loads a timer via Singleton that increments every 10ms
+
+Waits for incoming TCP client connections
+
+Handles incoming MTP requests using ClientsHandler.js
+
+Responds with media file chunks in packets if the file is found
+
+2. Start the Client and Request a File
+
+node GetMedia.js -s 127.0.0.1:3000 -q Rose.gif -v 18
+The client:
+
+Constructs a custom MTP request with version, timestamp, and filename
+
+Sends the packet over TCP to the server
+
+Listens for incoming packets
+
+Parses each 12-byte header to extract metadata
+
+Buffers all received payload chunks
+
+Once the last packet is received, reconstructs and saves the file to /downloads
+
+Automatically opens the file after saving
+
+Key Features
+Bit-level control of packet headers (manual offset and bit-length management)
+
+Accurate timestamping for request/response synchronization
+
+Sequence number tracking to detect out-of-order packets
+
+Logging for every packet transmission and reception
+
+Differentiation between "Found" and "Not Found" server responses
+
+Supports .jpeg, .gif, .png, .bmp, .tiff, .raw, .mp4, .avi, .mov files
+
+Example Console Output
+📤 Sending MTP request...
+📩 Received 1036 bytes from server.
+
+MTP packet header received:
+ 10010001 00000000 00000000 00000000
+ 00000000 00000000 00000110 00110010
+ 00000000 00000000 00000100 00000000
+
+Server sent:
+ --MTP Version = 18
+ --Response Type = Found
+ --Sequence Number = 0
+ --Timestamp = 783
+ --Last Packet = No
+
+📦 Total data received so far: 1024 bytes
+✅ All packets received. Saving the file...
+📂 File exists! Attempting to open...
+✅ File opened successfully!
+
+
+
+What You Can Learn
+Building binary protocols manually using bit masking
+
+Constructing a server-client model from scratch with TCP
+
+Using Node.js buffers to manipulate raw byte streams
+
+Handling file I/O and chunked media streaming
+
+Implementing reliability features like sequence tracking
+
+Technologies Used
+Node.js (net, fs, path, open)
+
+Custom bit-level protocol for header encoding/decoding
+
+Timer-based singleton module for timestamp generation
+
+CLI-based server/client communication
+
+
+Potential Extensions
+Add a GUI or browser-based client
+
+Implement compression before sending large files
+
+Encrypt data packets during transfer
+
+Add progress bar and retry mechanism for lost packets
+
+Expand protocol to support video streaming or audio playback
+
+Author
+Dawud Kaawan
+Software Engineering
+
+```
