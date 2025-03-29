@@ -2,7 +2,7 @@ let net = require("net");
 let singleton = require("./Singleton");
 let ClientsHandler = require("./ClientsHandler");
 
-let HOST = "127.0.0.1";
+let HOST = "YOURHOST";
 let PORT = 3000;
 
 // Initialize any global counters or timers
