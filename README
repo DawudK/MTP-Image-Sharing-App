@@ -33,7 +33,7 @@ Responds with media file chunks in packets if the file is found
 
 2. Start the Client and Request a File
 
-node GetMedia.js -s 127.0.0.1:3000 -q Rose.gif -v 18
+node GetMedia.js -s YOURHOST:3000 -q Rose.gif -v 18
 The client:
 
 Constructs a custom MTP request with version, timestamp, and filename
